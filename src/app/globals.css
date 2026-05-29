@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/*
+ * Thmanyah font — place licensed font files at:
+ *   public/fonts/thmanyah/Thmanyah-Regular.woff2  (weight 400)
+ *   public/fonts/thmanyah/Thmanyah-Bold.woff2     (weight 700)
+ *
+ * Alternative (ThmanyahSans naming):
+ *   public/fonts/thmanyah_sans/thmanyahsans-Regular.woff2
+ *   public/fonts/thmanyah_sans/thmanyahsans-Bold.woff2
+ *
+ * Do not commit font files unless your license allows redistribution.
+ */
+@font-face {
+  font-family: "Thmanyah";
+  src: url("/fonts/thmanyah/Thmanyah-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Thmanyah";
+  src: url("/fonts/thmanyah/Thmanyah-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Legacy ThmanyahSans paths — used if Thmanyah files are not yet added */
+@font-face {
+  font-family: "ThmanyahSans";
+  src: url("/fonts/thmanyah_sans/thmanyahsans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ThmanyahSans";
+  src: url("/fonts/thmanyah_sans/thmanyahsans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-arabic: "Thmanyah", "ThmanyahSans", "IBM Plex Sans Arabic", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-english: var(--font-poppins, "Poppins"), "Montserrat", "Inter", system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-brand-cyan: #00FFFF;
+  --color-brand-purple: #A855F7;
+  --color-background: #000000;
+  --color-foreground: #ffffff;
+  --font-sans: var(--font-arabic);
+}
+
+html[lang="ar"] {
+  direction: rtl;
+}
+
+html[lang="en"] {
+  direction: ltr;
+}
+
+html[lang="ar"] body {
+  font-family: var(--font-arabic);
+}
+
+html[lang="en"] body {
+  font-family: var(--font-english);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  overflow-x: hidden;
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+}
+
+.font-english {
+  font-family: var(--font-english);
+}
+
+/* Custom fullpage.js overrides if needed */
+#fp-nav ul li a span,
+.fp-slidesNav ul li a span {
+  background: var(--color-brand-cyan) !important;
+}
+
+/* Hide fullpage.js navigation dots on mobile */
+@media (max-width: 768px) {
+  #fp-nav {
+    display: none !important;
+  }
+}
+
+/* Utilities for text balance */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Loader Animation */
+.loader-line {
+  width: 0;
+  height: 2px;
+  background-color: var(--color-brand-cyan);
+  animation: load 2s ease-in-out forwards;
+}
+
+@keyframes load {
+  0% { width: 0; opacity: 1; }
+  80% { width: 100vw; opacity: 1; }
+  100% { width: 100vw; opacity: 0; }
+}
+
+/* Ambient hero background orb animations (GPU-composited, transform-only) */
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, -40px) scale(1.1); }
+  66% { transform: translate(-30px, 50px) scale(0.95); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-50px, 30px) scale(1.05); }
+  66% { transform: translate(40px, -60px) scale(0.9); }
+}
