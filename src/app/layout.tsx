@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { SITE_URL } from "@/lib/contactInfo";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -10,13 +11,17 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "QaderTech | قادر تِك",
   description: "تحول رقمي لرواد الأعمال. حلول تقنية وإبداعية تساعد الأعمال على النمو. خدماتنا تشمل تطوير المواقع، التطبيقات، الذكاء الاصطناعي، وأتمتة الأعمال في السعودية.",
   keywords: ["حلول تقنية بالسعودية", "تحول رقمي لرواد الأعمال", "تطوير تطبيقات", "الذكاء الاصطناعي", "أتمتة الأعمال", "QaderTech", "قادر للحلول الرقمية"],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "QaderTech | قادر تِك",
     description: "تحول رقمي لرواد الأعمال. حلول تقنية وإبداعية تساعد الأعمال على النمو.",
-    url: 'https://qadertech.com',
+    url: SITE_URL,
     siteName: 'QaderTech',
     locale: 'ar_SA',
     type: 'website',

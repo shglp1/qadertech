@@ -1,3 +1,5 @@
+export const SITE_URL = "https://www.qadertech.com";
+
 export const contactInfo = {
   emails: {
     general: "hello@qadertech.com",
@@ -7,7 +9,7 @@ export const contactInfo = {
     display: "+966 56 001 9865",
     tel: "+966560019865",
   },
-  website: "https://qadertech.com",
+  website: SITE_URL,
   mapUrl: "https://maps.google.com/?q=Saudi+Arabia",
   // TODO: Add full street address when available
   // TODO: Add WhatsApp number when available

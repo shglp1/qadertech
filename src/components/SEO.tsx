@@ -1,5 +1,6 @@
 import React from 'react';
 import { dict, Lang } from '../lib/dict';
+import { SITE_URL } from '../lib/contactInfo';
 
 interface SEOProps {
   lang: Lang;
@@ -11,9 +12,9 @@ export default function SEO({ lang }: SEOProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "QaderTech Digital Solutions | قادر للحلول الرقمية",
-    "url": "https://qadertech.com",
-    "logo": "https://qadertech.com/qaderlogo.svg",
+    "name": "QaderTech Digital Solutions | قادر تك للحلول الرقمية",
+    "url": SITE_URL,
+    "logo": `${SITE_URL}/qaderlogo.svg`,
     "description": "حلول تقنية وإبداعية تساعد الأعمال على النمو والتحول الرقمي",
     "areaServed": {
       "@type": "Country",
@@ -29,7 +30,7 @@ export default function SEO({ lang }: SEOProps) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "QaderTech Digital Solutions",
-    "image": "https://qadertech.com/qaderlogo.svg",
+    "image": `${SITE_URL}/qaderlogo.svg`,
     "description": "Tech agency specializing in AI, business automation, and digital transformation for entrepreneurs in KSA, built by a team with a background in leading tech competitions.",
     "address": {
       "@type": "PostalAddress",
@@ -42,7 +43,7 @@ export default function SEO({ lang }: SEOProps) {
   const knowledgeGraphSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "url": "https://qadertech.com/",
+    "url": `${SITE_URL}/`,
     "name": "QaderTech",
     "about": [
       {

@@ -81,7 +81,7 @@ const WorkflowApp = ({ lang }: { lang: Lang }) => {
 
 // 2. Web Development (Safari Browser)
 const SafariBrowserApp = ({ lang }: { lang: Lang }) => {
-  const url = "qadertech.com/build";
+  const url = "www.qadertech.com/build";
   const [typedUrl, setTypedUrl] = useState("");
 
   useEffect(() => {
