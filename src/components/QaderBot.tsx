@@ -9,12 +9,12 @@ import { GREETINGS } from "../lib/qaderBot/respondLocal";
 import {
   createLeadFlow,
   getContactCollectIntro,
-  getDefaultContactMessage,
   getStepPrompt,
   getSubmittingPrompt,
   getSuccessPrompt,
   getCancelPrompt,
   isCancelMessage,
+  isGenericContactOnly,
   processLeadStep,
   resolveLeadPrefill,
   type LeadFlowState,
@@ -120,7 +120,23 @@ export default function QaderBot({ lang }: QaderBotProps) {
 
   const beginLeadFromConfirm = (topic: string, prefill: LeadPrefill = {}) => {
     const message = prefill.message || topic;
+    if (isGenericContactOnly(message, lang) && !prefill.message?.trim()) {
+      startLeadFlow("", getAffirmativeStartPrompt(lang));
+      return;
+    }
     startLeadFlow({ ...prefill, message }, getAffirmativeStartPrompt(lang));
+  };
+
+  const handleContactButton = () => {
+    const chatTurns = messages.map((m) => ({ role: m.role, text: m.text }));
+    const priorTopic = findLastTopicMessage(chatTurns, lang);
+
+    if (priorTopic && !isGenericContactOnly(priorTopic, lang)) {
+      startLeadFlow({ message: priorTopic }, getContactCollectIntro(lang));
+      return;
+    }
+
+    startLeadFlow("", getContactCollectIntro(lang));
   };
 
   const submitLead = async (data: LeadFlowState["data"]) => {
@@ -282,7 +298,9 @@ export default function QaderBot({ lang }: QaderBotProps) {
         const flow = createLeadFlow(prefill);
         setLeadFlow(flow);
         setPendingContact(null);
-        addBotMessage(getStepPrompt(flow.step, lang));
+        if (flow.step !== "message") {
+          addBotMessage(getStepPrompt(flow.step, lang));
+        }
       } else {
         setPendingContact(null);
       }
@@ -360,12 +378,7 @@ export default function QaderBot({ lang }: QaderBotProps) {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() =>
-                      startLeadFlow(
-                        { message: getDefaultContactMessage(lang) },
-                        getContactCollectIntro(lang)
-                      )
-                    }
+                    onClick={handleContactButton}
                     disabled={!!leadFlow || isLoading}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 border border-white/10 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 transition-colors text-gray-300 hover:text-white disabled:opacity-40"
                   >

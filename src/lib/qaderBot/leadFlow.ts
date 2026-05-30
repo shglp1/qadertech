@@ -1,4 +1,5 @@
 import type { Lang } from "../dict";
+import { detectContactIntent } from "./intents";
 import { isValidPhone, formatPhoneForStorage } from "../contactSubmit";
 import {
   mergeLeadData,
@@ -58,14 +59,27 @@ export function getDefaultContactMessage(locale: Lang): string {
   return locale === "ar" ? "طلب تواصل" : "Contact request";
 }
 
+const SUBSTANTIVE_TOPIC =
+  /مشروع|موقع|تطبيق|برمج|ذكاء|artificial|app|website|web|project|service|خدم|سعر|price|تكلف|تصميم|design|store|متجر|dashboard|لوحة|system|نظام|automation|أتمت|bot|بوت|landing|متجر/i;
+
+/** True when the text is only a generic contact phrase with no real request detail */
+export function isGenericContactOnly(text: string, locale: Lang): boolean {
+  const trimmed = text.trim();
+  if (!trimmed) return true;
+  if (trimmed === getDefaultContactMessage(locale)) return true;
+  if (SUBSTANTIVE_TOPIC.test(trimmed)) return false;
+  if (!detectContactIntent(trimmed, locale)) return false;
+  return trimmed.length <= 45;
+}
+
 export function resolveLeadPrefill(
   text: string,
   isContactIntent: boolean,
   locale: Lang
 ): string | LeadPrefill {
   const trimmed = text.trim();
-  if (isContactIntent && trimmed.length <= 30) {
-    return { message: getDefaultContactMessage(locale) };
+  if (isContactIntent && isGenericContactOnly(trimmed, locale)) {
+    return { message: "" };
   }
   return trimmed;
 }
@@ -85,8 +99,8 @@ export function getLeadStartPrompt(locale: Lang): string {
 export function getStepPrompt(step: LeadStep, locale: Lang): string {
   const prompts: Record<LeadStep, Record<Lang, string>> = {
     message: {
-      ar: "وش طلبك أو استفسارك؟",
-      en: "What is your question or request?",
+      ar: "وش طلبك أو استفسارك بالتفصيل؟",
+      en: "What is your question or request in detail?",
     },
     name: {
       ar: "تمام. وش اسمك؟",
@@ -186,6 +200,17 @@ export function processLeadStep(
           locale === "ar"
             ? "اكتب طلبك أو استفسارك بشكل أوضح."
             : "Please describe your request in a bit more detail.",
+        readyToSubmit: false,
+        error: true,
+      };
+    }
+    if (isGenericContactOnly(message, locale)) {
+      return {
+        nextFlow: flow,
+        botReply:
+          locale === "ar"
+            ? "وش بالتحديد تبي من فريق قادر؟ اكتب سؤالك أو طلبك بالتفصيل."
+            : "What specifically would you like from the QaderTech team? Please describe your request.",
         readyToSubmit: false,
         error: true,
       };
