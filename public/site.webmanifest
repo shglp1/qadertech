@@ -1,6 +1,11 @@
 {
-  "name": "QaderTech",
+  "name": "QaderTech — قادر للحلول الرقمية",
   "short_name": "QaderTech",
+  "description": "Digital solutions for entrepreneurs in Saudi Arabia: web, apps, AI, and automation.",
+  "start_url": "https://www.qadertech.com/",
+  "scope": "https://www.qadertech.com/",
+  "lang": "ar-SA",
+  "dir": "rtl",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -17,5 +22,6 @@
   ],
   "theme_color": "#000000",
   "background_color": "#000000",
-  "display": "standalone"
+  "display": "standalone",
+  "categories": ["business", "productivity"]
 }

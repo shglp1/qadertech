@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useId } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { dict, Lang } from "../lib/dict";
 
@@ -19,7 +19,7 @@ export default function FAQ({ lang }: FAQProps) {
   };
 
   return (
-    <div className="container mx-auto px-6 py-20 flex flex-col justify-center min-h-[80vh]">
+    <div id="faq" className="container mx-auto px-6 py-20 flex flex-col justify-center min-h-[80vh]">
       <div className="mb-16 text-center w-full flex flex-col items-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
           {t.title}
@@ -66,24 +66,23 @@ export default function FAQ({ lang }: FAQProps) {
                     </motion.span>
                   </button>
                 </dt>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.dd
-                      id={answerId}
-                      role="region"
-                      aria-labelledby={questionId}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-5 pt-0 text-gray-400 leading-relaxed font-light border-t border-white/5 mx-6 mb-4 mt-0 pt-4">
-                        {item.a}
-                      </div>
-                    </motion.dd>
-                  )}
-                </AnimatePresence>
+                <motion.dd
+                  id={answerId}
+                  role="region"
+                  aria-labelledby={questionId}
+                  aria-hidden={!isOpen}
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-5 pt-0 text-gray-400 leading-relaxed font-light border-t border-white/5 mx-6 mb-4 mt-0 pt-4">
+                    {item.a}
+                  </div>
+                </motion.dd>
               </div>
             );
           })}

@@ -367,7 +367,10 @@ export default function Hero({ lang }: { lang: Lang }) {
               transition={{ duration: 0.9, ease: "easeOut" }}
               className={`flex flex-col ${lang === 'ar' ? 'w-full items-start' : 'w-fit max-w-xl items-start'}`}
             >
-              <h1 className={`font-bold leading-[1.1] mb-6 bg-clip-text text-transparent bg-gradient-to-r from-brand-cyan via-white to-brand-purple pb-2 tracking-[0.02em] ${lang === 'ar' ? 'text-5xl sm:text-7xl md:text-8xl lg:text-9xl' : 'text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-8xl'}`}>
+              <h1
+                id="hero-heading"
+                className={`font-bold leading-[1.1] mb-6 bg-clip-text text-transparent bg-gradient-to-r from-brand-cyan via-white to-brand-purple pb-2 tracking-[0.02em] ${lang === 'ar' ? 'text-5xl sm:text-7xl md:text-8xl lg:text-9xl' : 'text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-8xl'}`}
+              >
                 {lang === 'en' ? (
                   <>
                     QaderTech
@@ -387,6 +390,7 @@ export default function Hero({ lang }: { lang: Lang }) {
               </motion.p>
 
               <motion.p
+                id="hero-subtitle"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
