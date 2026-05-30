@@ -97,8 +97,8 @@ export function detectContactIntent(message: string, locale: Lang): boolean {
 
 export function getContactFormPrompt(locale: Lang): string {
   return locale === "ar"
-    ? "أقدر أرسل استفسارك مباشرة لفريق قادر. اكتب سؤالك أو طلبك:"
-    : "I can send your request directly to the QaderTech team. What is your question or request?";
+    ? "تمام، بجمع بياناتك ونرسل طلبك لفريق قادر."
+    : "Sure, I'll collect your details and send your request to the team.";
 }
 
 export function resolveContactAction(

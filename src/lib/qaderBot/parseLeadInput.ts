@@ -194,64 +194,46 @@ export function isValidEmail(email: string): boolean {
   return EMAIL_VALIDATION.test(email.trim().toLowerCase());
 }
 
+/** Update only the active step field — avoids skipping name/phone during guided flow */
 export function mergeLeadData(
   current: ParsedLeadFields,
   input: string,
   step: "message" | "name" | "phone" | "email"
 ): ParsedLeadFields {
-  const parsed = parseLeadText(input, current);
+  const trimmed = input.trim();
 
   if (step === "message") {
     return {
-      name: parsed.name || current.name,
-      email: parsed.email || current.email,
-      phone: parsed.phone || current.phone,
-      message: parsed.message || cleanMessageText(input, parsed.email, parsed.phone) || input.trim(),
+      ...current,
+      message: trimmed || current.message,
     };
   }
 
   if (step === "name") {
-    const name = looksLikeName(input) && !parsed.email && !parsed.phone
-      ? input.trim()
-      : parsed.name || current.name || input.trim();
-
     return {
-      name,
-      email: parsed.email || current.email,
-      phone: parsed.phone || current.phone,
-      message:
-        parsed.message ||
-        current.message ||
-        cleanMessageText(input, parsed.email, parsed.phone),
+      ...current,
+      name: trimmed || current.name,
     };
   }
 
   if (step === "phone") {
-    const email = parsed.email || current.email;
-    const phone = parsed.phone || current.phone;
-    let message = parsed.message || current.message;
-
-    if (message && messageContainsContactInfo(message)) {
-      message = cleanMessageText(message, email, phone);
-    } else if (!message) {
-      message = cleanMessageText(input, parsed.email, parsed.phone);
-    }
+    const extracted = extractPhoneFromText(trimmed);
+    const phone =
+      extracted ||
+      (isValidPhone(trimmed) ? formatPhoneForStorage(trimmed) : "") ||
+      current.phone;
 
     return {
-      name: parsed.name || current.name,
-      email,
+      ...current,
       phone,
-      message,
     };
   }
 
-  // email step — keep structured fields; never re-parse phone from email input
-  const email = extractEmail(input) || parsed.email || current.email;
+  const extracted = extractEmail(trimmed);
+  const email = extracted || trimmed.toLowerCase();
   return {
-    name: current.name || parsed.name,
-    email: isValidEmail(email) ? email.trim().toLowerCase() : current.email,
-    phone: current.phone || parsed.phone,
-    message: current.message || parsed.message,
+    ...current,
+    email: isValidEmail(email) ? email : current.email,
   };
 }
 

@@ -54,6 +54,28 @@ export function createLeadFlow(prefill: string | LeadPrefill = ""): LeadFlowStat
   };
 }
 
+export function getDefaultContactMessage(locale: Lang): string {
+  return locale === "ar" ? "طلب تواصل" : "Contact request";
+}
+
+export function resolveLeadPrefill(
+  text: string,
+  isContactIntent: boolean,
+  locale: Lang
+): string | LeadPrefill {
+  const trimmed = text.trim();
+  if (isContactIntent && trimmed.length <= 30) {
+    return { message: getDefaultContactMessage(locale) };
+  }
+  return trimmed;
+}
+
+export function getContactCollectIntro(locale: Lang): string {
+  return locale === "ar"
+    ? "تمام، بجمع بياناتك ونرسل طلبك لفريق قادر."
+    : "Sure, I'll collect your details and send your request to the team.";
+}
+
 export function getLeadStartPrompt(locale: Lang): string {
   return locale === "ar"
     ? "أقدر أرسل طلبك مباشرة لفريق قادر.\n\nوش طلبك أو استفسارك؟"

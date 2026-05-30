@@ -8,16 +8,19 @@ import { detectLocale } from "../lib/qaderBot/normalize";
 import { GREETINGS } from "../lib/qaderBot/respondLocal";
 import {
   createLeadFlow,
-  getLeadStartPrompt,
+  getContactCollectIntro,
+  getDefaultContactMessage,
   getStepPrompt,
   getSubmittingPrompt,
   getSuccessPrompt,
   getCancelPrompt,
   isCancelMessage,
   processLeadStep,
+  resolveLeadPrefill,
   type LeadFlowState,
   type LeadPrefill,
 } from "../lib/qaderBot/leadFlow";
+import { detectContactIntent } from "../lib/qaderBot/intents";
 import {
   isAffirmativeMessage,
   isNegativeMessage,
@@ -271,7 +274,12 @@ export default function QaderBot({ lang }: QaderBotProps) {
         });
       } else if (data.action === "start_lead_flow" || data.action === "contact_form") {
         const flowTopic = findLastTopicMessage(nextMessages, lang) || trimmed;
-        const flow = createLeadFlow(flowTopic);
+        const prefill = resolveLeadPrefill(
+          flowTopic,
+          detectContactIntent(trimmed, lang),
+          lang
+        );
+        const flow = createLeadFlow(prefill);
         setLeadFlow(flow);
         setPendingContact(null);
         addBotMessage(getStepPrompt(flow.step, lang));
@@ -352,7 +360,12 @@ export default function QaderBot({ lang }: QaderBotProps) {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => startLeadFlow("", getLeadStartPrompt(lang))}
+                    onClick={() =>
+                      startLeadFlow(
+                        { message: getDefaultContactMessage(lang) },
+                        getContactCollectIntro(lang)
+                      )
+                    }
                     disabled={!!leadFlow || isLoading}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 border border-white/10 hover:border-brand-cyan/40 hover:bg-brand-cyan/10 transition-colors text-gray-300 hover:text-white disabled:opacity-40"
                   >
