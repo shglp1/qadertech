@@ -16,15 +16,6 @@ export const SEO_CONFIG = {
 const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
-export const SITE_SECTIONS = [
-  { path: "/", anchor: "hero", changeFrequency: "weekly" as const, priority: 1 },
-  { path: "/", anchor: "process", changeFrequency: "monthly" as const, priority: 0.8 },
-  { path: "/", anchor: "services", changeFrequency: "monthly" as const, priority: 0.9 },
-  { path: "/", anchor: "about", changeFrequency: "monthly" as const, priority: 0.7 },
-  { path: "/", anchor: "contact", changeFrequency: "monthly" as const, priority: 0.8 },
-  { path: "/", anchor: "faq", changeFrequency: "monthly" as const, priority: 0.8 },
-];
-
 const KNOWS_ABOUT = [
   "Digital Transformation",
   "Web Development",
@@ -75,11 +66,11 @@ export function getRootMetadata(): Metadata {
       },
     },
     alternates: {
-      canonical: "/",
+      canonical: `${SITE_URL}/`,
     },
     openGraph: {
       type: "website",
-      url: SITE_URL,
+      url: `${SITE_URL}/`,
       siteName: SEO_CONFIG.siteName,
       title: "QaderTech | قادر تِك — حلول رقمية في السعودية",
       description:
