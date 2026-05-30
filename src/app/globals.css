@@ -93,19 +93,6 @@ body {
   font-family: var(--font-english);
 }
 
-/* Custom fullpage.js overrides if needed */
-#fp-nav ul li a span,
-.fp-slidesNav ul li a span {
-  background: var(--color-brand-cyan) !important;
-}
-
-/* Hide fullpage.js navigation dots on mobile */
-@media (max-width: 768px) {
-  #fp-nav {
-    display: none !important;
-  }
-}
-
 /* Utilities for text balance */
 .text-balance {
   text-wrap: balance;

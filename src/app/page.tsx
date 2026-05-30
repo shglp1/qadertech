@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import ReactFullpage from "@fullpage/react-fullpage";
 
 import { dict, Lang } from "../lib/dict";
-import { useIsMobile } from "../hooks/useMediaQuery";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import ServicesGrid from "../components/ServicesGrid";
@@ -58,7 +56,7 @@ function ServicesSection({ lang }: { lang: Lang }) {
   const t = dict[lang];
 
   return (
-    <div id="services" className="container mx-auto px-6 py-16 md:py-20 flex flex-col justify-center md:min-h-screen">
+    <div id="services" className="container mx-auto px-6 py-16 md:py-24">
       <div className="mb-10 md:mb-16 text-center w-full flex flex-col items-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -95,9 +93,24 @@ function SiteFooter({ lang }: { lang: Lang }) {
   );
 }
 
-function MobileLayout({ lang }: { lang: Lang }) {
+export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [lang, setLang] = useState<Lang>("ar");
+
+  useEffect(() => {
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  if (loading) {
+    return <Preloader onComplete={() => setLoading(false)} />;
+  }
+
   return (
-    <>
+    <main className="bg-black min-h-screen text-white overflow-x-hidden">
+      <SEO lang={lang} />
+      <Navbar lang={lang} setLang={setLang} />
+
       <section className="relative">
         <Hero lang={lang} />
       </section>
@@ -124,77 +137,6 @@ function MobileLayout({ lang }: { lang: Lang }) {
       </section>
 
       <SiteFooter lang={lang} />
-    </>
-  );
-}
-
-export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [lang, setLang] = useState<Lang>("ar");
-  const isMobile = useIsMobile();
-
-  useEffect(() => {
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    document.documentElement.lang = lang;
-  }, [lang]);
-
-  if (loading) {
-    return <Preloader onComplete={() => setLoading(false)} />;
-  }
-
-  return (
-    <main
-      className={`bg-black min-h-screen text-white ${
-        isMobile ? "overflow-x-hidden" : "overflow-hidden"
-      }`}
-    >
-      <SEO lang={lang} />
-      <Navbar lang={lang} setLang={setLang} />
-
-      {isMobile ? (
-        <MobileLayout lang={lang} />
-      ) : (
-        <ReactFullpage
-          licenseKey={"Gplv3-license-1!"}
-          scrollingSpeed={1000}
-          navigation={true}
-          navigationPosition={lang === "ar" ? "left" : "right"}
-          anchors={["hero", "process", "services", "about", "contact", "faq", "footer"]}
-          credits={{ enabled: false }}
-          render={() => (
-            <ReactFullpage.Wrapper>
-              <div className="section p-0">
-                <Hero lang={lang} />
-              </div>
-
-              <div className="section relative">
-                <ProcessBackground />
-                <HowItWorks lang={lang} />
-              </div>
-
-              <div className="section">
-                <ServicesSection lang={lang} />
-              </div>
-
-              <div className="section relative">
-                <About lang={lang} />
-              </div>
-
-              <div className="section">
-                <Contact lang={lang} />
-              </div>
-
-              <div className="section relative">
-                <FAQ lang={lang} />
-              </div>
-
-              <div className="section fp-auto-height">
-                <SiteFooter lang={lang} />
-              </div>
-            </ReactFullpage.Wrapper>
-          )}
-        />
-      )}
 
       <QaderBot key={lang} lang={lang} />
     </main>
