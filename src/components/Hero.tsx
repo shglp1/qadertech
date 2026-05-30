@@ -342,7 +342,7 @@ export default function Hero({ lang }: { lang: Lang }) {
   const t = dict[lang].hero;
 
   return (
-    <div className="relative w-full h-full min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-black">
+    <div id="hero" className="relative w-full h-full min-h-[100dvh] flex flex-col justify-center overflow-hidden bg-black">
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div
           className="absolute inset-0"

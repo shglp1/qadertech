@@ -12,7 +12,7 @@ export default function About({ lang }: AboutProps) {
   const t = dict[lang].about;
 
   return (
-    <div className="container mx-auto px-6 py-20 flex flex-col justify-center min-h-screen">
+    <div id="about" className="container mx-auto px-6 py-16 md:py-20 flex flex-col justify-center md:min-h-screen">
       <div className="mb-16 text-center w-full flex flex-col items-center">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

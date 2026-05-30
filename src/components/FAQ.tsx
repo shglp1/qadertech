@@ -19,7 +19,7 @@ export default function FAQ({ lang }: FAQProps) {
   };
 
   return (
-    <div id="faq" className="container mx-auto px-6 py-20 flex flex-col justify-center min-h-[80vh]">
+    <div id="faq" className="container mx-auto px-6 py-16 md:py-20 flex flex-col justify-center md:min-h-[80vh]">
       <div className="mb-16 text-center w-full flex flex-col items-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
           {t.title}

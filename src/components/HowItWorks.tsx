@@ -6,7 +6,7 @@ export default function HowItWorks({ lang }: { lang: Lang }) {
   const t = dict[lang];
 
   return (
-    <div className="container mx-auto px-6 py-20 flex flex-col justify-center min-h-screen relative z-10">
+    <div id="process" className="container mx-auto px-6 py-16 md:py-20 flex flex-col justify-center md:min-h-screen relative z-10">
       <div className="mb-20 text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-4">{t.process.title}</h2>
         <div className="w-20 h-1 bg-gradient-to-r from-brand-cyan to-brand-purple mx-auto rounded-full" />
